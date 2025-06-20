@@ -7,12 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-ascii:
+  build_job_1:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
 
     - name: Install Cowsay Program
       run: sudo apt-get install -y cowsay
@@ -31,4 +28,45 @@ jobs:
     - name: Checkout Repo Files
       run: ls
 
-      
+  test_job_2:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install Cowsay Program
+      run: sudo apt-get install -y cowsay
+
+    - name: Execute Cowsay Program
+      run: |
+        cowsay -f dragon "Run for cover, I am a dragon!" >> dragon.txt
+
+    - name: Test File exists
+      run: |
+        grep -i "dragon" dragon.txt || echo "Dragon not found in file!"
+
+    - name: Read file
+      run: cat dragon.txt
+
+    - name: Checkout Repo Files
+      run: ls
+
+
+  deploy_job_3:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install Cowsay Program
+      run: sudo apt-get install -y cowsay
+
+    - name: Execute Cowsay Program
+      run: |
+        cowsay -f dragon "Run for cover, I am a dragon!" >> dragon.txt
+
+    - name: Test File exists
+      run: |
+        grep -i "dragon" dragon.txt || echo "Dragon not found in file!"
+
+    - name: Read file
+      run: cat dragon.txt
+
+    - name: Checkout Repo Files
+      run: ls
