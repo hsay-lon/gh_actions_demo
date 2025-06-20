@@ -1,0 +1,37 @@
+name: Static Blog Site CI # Name of your workflow
+
+on:
+  push:
+    branches:
+      - main # This workflow runs on pushes to the main branch
+
+jobs:
+  build-and-test: # Name of the job
+    runs-on: ubuntu-latest # The type of machine to run the job on
+
+    steps: # List of steps for this job
+      - name: Checkout repository code # Step 1: Checkout your code
+        uses: actions/checkout@v4 # Action to check out your repository under $GITHUB_WORKSPACE
+
+      - name: Simulate Build Step # Step 2: Simulate a build
+        run: | # Use multiline string for shell commands
+          echo "Starting build process..."
+          mkdir -p build_output # Create a directory for build artifacts
+          cp index.html build_output/index.html # Copy our 'built' file
+          echo "Build complete. Artifacts in build_output/"
+
+      - name: Simulate Test Step (Check for index.html existence) # Step 3: Simulate a test
+        run: | # Use multiline string for shell commands
+          echo "Starting test process..."
+          if [ -f "build_output/index.html" ]; then
+            echo "Test successful: index.html found in build_output."
+          else
+            echo "Test failed: index.html not found in build_output."
+            exit 1 # Fail the step if file not found
+          fi
+
+      - name: Upload Build Artifacts (Optional, but good for demonstrating) # Step 4: Upload artifacts
+        uses: actions/upload-artifact@v4 # Action to upload artifacts
+        with: # Parameters for the upload-artifact action
+          name: website-build-artifact
+          path: build_output/
