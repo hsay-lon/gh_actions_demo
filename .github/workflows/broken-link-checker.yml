@@ -1,0 +1,32 @@
+name: 🔗 Broken Link Checker
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]  # Runs every Sunday at midnight
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install lychee
+        run: |
+          curl -LsSf https://github.com/lycheeverse/lychee/releases/latest/download/lychee-linux -o lychee
+          chmod +x lychee
+          sudo mv lychee /usr/local/bin/
+
+      - name: Run lychee on Markdown files
+        run: |
+          lychee --verbose --no-progress "**/*.md" > lychee-report.txt
+          cat lychee-report.txt
+
+      - name: Upload report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: broken-link-report
+          path: lychee-report.txt
